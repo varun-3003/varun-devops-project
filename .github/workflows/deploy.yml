@@ -38,6 +38,10 @@ jobs:
             docker build -t varun-app .
             docker run -d -p 80:80 --name varun-container varun-app
 
-            echo "Deployment done"
+            echo "Deployment done"      
+
+
+
+            
 
            
