@@ -20,7 +20,16 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd /home/ec2-user/varun-devops-project || exit
+            cd varun-devops-project
+
+            echo "Pull latest code"
             git pull origin main
-            sudo cp -r * /usr/share/nginx/html/
-            sudo systemctl restart nginx
+
+            echo "Stop old container"
+            docker rm -f varun-container || true
+
+            echo "Build new image"
+            docker build -t varun-app .
+
+            echo "Run new container"
+            docker run -d -p 80:80 --name varun-container varun-app
