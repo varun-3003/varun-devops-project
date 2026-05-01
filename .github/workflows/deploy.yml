@@ -20,20 +20,21 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
 
-          script: |
-            cd varun-devops-project
+           script: |
+  cd /home/ec2-user
 
-            # Stop old container (ignore error)
-            docker stop varun-container || true
+  # clone if not exists
+  if [ ! -d "varun-devops-project" ]; then
+    git clone https://github.com/varun-3003/varun-devops-project.git
+  fi
 
-            # Remove old container
-            docker rm varun-container || true
+  cd varun-devops-project
 
-            # Remove old image
-            docker rmi varun-app || true
+  git pull origin main
 
-            # Build new image
-            docker build -t varun-app .
+  sudo docker stop varun-container || true
+  sudo docker rm varun-container || true
+  sudo docker rmi varun-app || true
 
-            # Run container
-            docker run -d -p 80:80 --name varun-container varun-app
+  sudo docker build -t varun-app .
+  sudo docker run -d -p 80:80 --name varun-container varun-app
