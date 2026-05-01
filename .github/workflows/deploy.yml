@@ -19,11 +19,14 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
+
           script: |
             cd varun-devops-project
 
-            # Stop and remove old container
+            # Stop old container (ignore error)
             docker stop varun-container || true
+
+            # Remove old container
             docker rm varun-container || true
 
             # Remove old image
