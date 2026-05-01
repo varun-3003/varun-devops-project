@@ -20,28 +20,13 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            echo "Starting deployment"
-
-            if [ ! -d "/home/ec2-user/varun-devops-project" ]; then
-              git clone https://github.com/varun-3003/varun-devops-project.git /home/ec2-user/varun-devops-project
-            fi
-
             cd /home/ec2-user/varun-devops-project
-
             git pull origin main
 
             docker stop varun-container || true
             docker rm varun-container || true
-
-            docker system prune -af || true
+            docker rmi varun-app || true
 
             docker build -t varun-app .
             docker run -d -p 80:80 --name varun-container varun-app
-
-            echo "Deployment done"      
-
-
-
-            
-
            
