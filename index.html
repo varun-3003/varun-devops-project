@@ -1,12 +1,248 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Varun DevOps Project</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Varun DevOps Project</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0f0a;
+      color: #c8f5d8;
+      font-family: 'Courier New', monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 20px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,100,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,100,0.04) 1px, transparent 1px);
+      background-size: 36px 36px;
+      pointer-events: none;
+    }
+
+    .card {
+      position: relative;
+      background: #0d1a0d;
+      border: 1px solid #1a3a1a;
+      border-radius: 10px;
+      padding: 40px 36px;
+      max-width: 680px;
+      width: 100%;
+      box-shadow: 0 0 60px rgba(0,255,100,0.08), 0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    /* top bar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .r { background: #ff5f57; }
+    .y { background: #febc2e; }
+    .g { background: #28c840; }
+    .topbar-title {
+      margin-left: auto;
+      font-size: 12px;
+      color: #3a6a4a;
+      letter-spacing: 0.1em;
+    }
+
+    /* status */
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #3a8a5a;
+      margin-bottom: 28px;
+      letter-spacing: 0.15em;
+    }
+    .pulse {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #00ff6a;
+      box-shadow: 0 0 8px #00ff6a;
+      animation: blink 1.5s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* heading */
+    h1 {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 6px;
+      line-height: 1.1;
+    }
+    h1 span { color: #00ff6a; text-shadow: 0 0 20px rgba(0,255,106,0.5); }
+
+    h2 {
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: #4a8a6a;
+      margin-bottom: 28px;
+      letter-spacing: 0.05em;
+    }
+
+    /* terminal box */
+    .terminal {
+      background: #060f06;
+      border: 1px solid #1a3a1a;
+      border-radius: 6px;
+      padding: 18px 20px;
+      margin-bottom: 28px;
+      font-size: 13px;
+      line-height: 2;
+    }
+    .line { display: flex; gap: 8px; }
+    .pr { color: #00ff6a; }
+    .cm { color: #e0ffe8; }
+    .ok { color: #00ff6a; padding-left: 18px; }
+    .cursor {
+      display: inline-block;
+      width: 8px; height: 13px;
+      background: #00ff6a;
+      vertical-align: middle;
+      animation: blink 1s infinite;
+    }
+
+    /* stack chips */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .chip {
+      background: #0a1e0a;
+      border: 1px solid #1e4a2a;
+      color: #00c44f;
+      font-size: 12px;
+      padding: 6px 14px;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .chip:hover {
+      box-shadow: 0 0 14px rgba(0,255,100,0.25);
+      transform: translateY(-2px);
+    }
+
+    /* pipeline */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      margin-bottom: 28px;
+      font-size: 11px;
+    }
+    .step {
+      flex: 1;
+      text-align: center;
+      background: #060f06;
+      border: 1px solid #1a3a1a;
+      border-radius: 4px;
+      padding: 10px 4px;
+    }
+    .step-icon { font-size: 16px; margin-bottom: 4px; }
+    .step-name { color: #00c44f; font-weight: 700; letter-spacing: 0.08em; font-size: 10px; }
+    .arrow { color: #1a4a2a; font-size: 16px; flex-shrink: 0; }
+
+    /* footer */
+    .footer {
+      border-top: 1px solid #1a3a1a;
+      padding-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #2a5a3a;
+    }
+    .badge {
+      display: flex; align-items: center; gap: 6px; color: #00c44f;
+    }
+  </style>
 </head>
 <body>
-    <h1>🚀 CI/CD Working Successfully</h1>
-    <h2>Deployed using AWS EC2 + Nginx + GitHub</h2>
-    <h3>CI/CD Working Successfully</h3>
-    <p>This is my Day 20 DevOps Project (Docker + CI/CD)</p>
+  <div class="card">
+
+    <div class="topbar">
+      <span class="dot r"></span>
+      <span class="dot y"></span>
+      <span class="dot g"></span>
+      <span class="topbar-title">varun@ec2:~</span>
+    </div>
+
+    <div class="status">
+      <div class="pulse"></div>
+      DEPLOYMENT ACTIVE &nbsp;|&nbsp; DAY 20
+    </div>
+
+    <h1>&#x1F680; CI/CD <span>Working Successfully</span></h1>
+    <h2>Deployed using AWS EC2 + Nginx + GitHub Actions</h2>
+
+    <div class="terminal">
+      <div class="line"><span class="pr">$</span><span class="cm">git push origin main</span></div>
+      <div class="ok">&#10003; GitHub Actions triggered</div>
+      <div class="line"><span class="pr">$</span><span class="cm">docker build -t app .</span></div>
+      <div class="ok">&#10003; Build successful in 11.2s</div>
+      <div class="line"><span class="pr">$</span><span class="cm">systemctl reload nginx</span></div>
+      <div class="ok">&#10003; 200 OK — App is LIVE</div>
+      <div class="line"><span class="pr">$</span><span class="cursor"></span></div>
+    </div>
+
+    <div class="chips">
+      <div class="chip">&#x2601;&#xFE0F; AWS EC2</div>
+      <div class="chip">&#x1F433; Docker</div>
+      <div class="chip">&#x26A1; GitHub Actions</div>
+      <div class="chip">&#x1F310; Nginx</div>
+      <div class="chip">&#x1F427; Linux</div>
+    </div>
+
+    <div class="pipeline">
+      <div class="step">
+        <div class="step-icon">&#x1F4DD;</div>
+        <div class="step-name">PUSH</div>
+      </div>
+      <div class="arrow">&#x2192;</div>
+      <div class="step">
+        <div class="step-icon">&#x26A1;</div>
+        <div class="step-name">CI/CD</div>
+      </div>
+      <div class="arrow">&#x2192;</div>
+      <div class="step">
+        <div class="step-icon">&#x1F433;</div>
+        <div class="step-name">BUILD</div>
+      </div>
+      <div class="arrow">&#x2192;</div>
+      <div class="step">
+        <div class="step-icon">&#x1F680;</div>
+        <div class="step-name">DEPLOY</div>
+      </div>
+      <div class="arrow">&#x2192;</div>
+      <div class="step">
+        <div class="step-icon">&#x2705;</div>
+        <div class="step-name">LIVE</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>This is my Day 20 DevOps Project (Docker + CI/CD)</span>
+      <div class="badge"><div class="pulse"></div> Live</div>
+    </div>
+
+  </div>
 </body>
 </html>
