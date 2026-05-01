@@ -18,18 +18,21 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
-          key: ${{ secrets.EC2_KEY }}
+          key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd varun-devops-project
 
-            echo "Pull latest code"
-            git pull origin main
+            # Stop and remove old container
+            docker stop varun-container || true
+            docker rm varun-container || true
 
-            echo "Stop old container"
-            docker rm -f varun-container || true
+            # Remove old image
+            docker rmi varun-app || true
 
-            echo "Build new image"
+            # Build new image
             docker build -t varun-app .
 
-            echo "Run new container"
+            # Run container
             docker run -d -p 80:80 --name varun-container varun-app
+
+        
