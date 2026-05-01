@@ -20,15 +20,8 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
 
-           script: |
-  cd /home/ec2-user
-
-  # clone if not exists
-  if [ ! -d "varun-devops-project" ]; then
-    git clone https://github.com/varun-3003/varun-devops-project.git
-  fi
-
-  cd varun-devops-project
+ script: |
+  cd /home/ec2-user/varun-devops-project
 
   git pull origin main
 
